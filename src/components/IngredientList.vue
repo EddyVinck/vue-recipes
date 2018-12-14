@@ -1,40 +1,63 @@
 <template>
   <section class="ingredients">
-    <div class="top">
-      <h1>Ingredients</h1>
-    </div>
-    <ul v-if="ingredients.length">
-      <li v-for="ingredient in ingredients" :key="ingredient.name">
-        <strong>{{ ingredient.name }}</strong>
-        <span class="quantity">{{ ingredient.quantity }}</span>
-      </li>
-    </ul>
-    <p class="no-ingredients" v-else>No ingredients available.</p>
-    <div class="bottom">
-      <div class="button-container">
-        <button v-on:click="showAddIngredientForm" class="button" type="button">Add ingredient</button>
-        <button
-          v-on:click="saveRecipe"
-          class="button button--secondary"
-          type="button"
-        >Save as recipe</button>
+    <div v-if="showRecipeForm === false">
+      <div class="top">
+        <h1>Ingredients</h1>
       </div>
-      <form v-if="showForm" v-on:submit.prevent="handleFormSubmit">
-        <input
-          v-model="new_ingredient.name"
-          type="text"
-          name="ingredient"
-          placeholder="Pasta"
-          id="ingredient"
-        >
-        <input
-          v-model="new_ingredient.quantity"
-          type="text"
-          name="quanity"
-          placeholder="200 gr"
-          id="quanity"
-        >
-        <button class="button" type="submit" v-on:submit.prevent="handleFormSubmit">Add</button>
+      <ul v-if="ingredients.length">
+        <li v-for="ingredient in ingredients" :key="ingredient.name">
+          <strong>{{ ingredient.name }}</strong>
+          <span class="quantity">{{ ingredient.quantity }}</span>
+        </li>
+      </ul>
+      <p class="no-ingredients" v-else>Add new ingredients to get started.</p>
+      <div class="bottom">
+        <div class="button-container">
+          <button
+            v-on:click="showAddIngredientForm"
+            ref="addIngredient"
+            class="button"
+            type="button"
+          >Add ingredient</button>
+          <button
+            v-if="ingredients.length > 0"
+            v-on:click="handleShowRecipeForm"
+            class="button button--secondary"
+            type="button"
+          >Save as recipe</button>
+        </div>
+        <form v-if="showIngredientForm" v-on:submit.prevent="handleFormSubmit">
+          <input
+            ref="ingredientName"
+            v-model="new_ingredient.name"
+            type="text"
+            name="ingredient"
+            placeholder="Pasta"
+            id="ingredient"
+          >
+          <input
+            v-model="new_ingredient.quantity"
+            type="text"
+            name="quanity"
+            placeholder="200 gr"
+            id="quanity"
+          >
+          <button class="button" type="submit" v-on:submit.prevent="handleFormSubmit">Add</button>
+        </form>
+      </div>
+    </div>
+    <div v-else class="new-recipe-form">
+      <h1>Enter your recipe's name</h1>
+      <form v-on:submit.prevent="handleSaveRecipe">
+        <input ref="recipeName" type="text" name id>
+        <div class="button-container">
+          <button class="button" type="submit" v-on:submit.prevent="handleSaveRecipe">Save recipe</button>
+          <button
+            class="button button--secondary"
+            type="button"
+            v-on:click="handleCancelSaveRecipe"
+          >Cancel</button>
+        </div>
       </form>
     </div>
   </section>
@@ -43,10 +66,12 @@
 <script>
 export default {
   name: "IngredientList",
+  recipeName: "",
   props: {},
   data() {
     return {
-      showForm: false,
+      showIngredientForm: false,
+      showRecipeForm: false,
       new_ingredient: {
         name: "",
         quantity: ""
@@ -66,7 +91,14 @@ export default {
   methods: {
     showAddIngredientForm() {
       console.log("show form");
-      this.showForm = true;
+      this.showIngredientForm = true;
+
+      this.$nextTick(() => this.$refs.ingredientName.focus());
+    },
+    handleShowRecipeForm() {
+      console.log("show recipe form");
+      this.showRecipeForm = true;
+      this.$nextTick(() => this.$refs.recipeName.focus());
     },
     handleFormSubmit(event) {
       console.log(event);
@@ -79,7 +111,8 @@ export default {
           name,
           quantity
         });
-        this.showForm = false;
+        this.showIngredientForm = false;
+        this.$refs.addIngredient.focus();
       } else {
         console.log("The ingredient has no specified name or quantity");
       }
@@ -87,9 +120,21 @@ export default {
       this.new_ingredient.name = "";
       this.new_ingredient.quantity = "";
     },
-    saveRecipe() {
-      console.log("save recipe!");
-      this.ingredients = [];
+    handleSaveRecipe() {
+      const { name, quantity } = this.new_ingredient;
+
+      // check if new ingredient form is closed
+      if (name === "" && quantity === "") {
+        console.log("save recipe!");
+
+        this.ingredients = [];
+        this.showRecipeForm = false;
+
+        // push to recipes list
+      }
+    },
+    handleCancelSaveRecipe() {
+      this.showRecipeForm = false;
     }
   }
 };
@@ -162,10 +207,14 @@ button[type="submit"] {
   margin: 5px 0;
 }
 .no-ingredients {
-  padding: 16px;
+  margin: 0;
+  padding: 0px 16px 32px;
   font-style: italic;
   font-style: 1.2rem;
   text-align: center;
+}
+.new-recipe-form {
+  padding: 30px;
 }
 </style>
 
