@@ -49,7 +49,14 @@
     <div v-else class="new-recipe-form">
       <h1>Enter your recipe's name</h1>
       <form v-on:submit.prevent="handleSaveRecipe">
-        <input ref="recipeName" type="text" name id>
+        <input
+          v-model="recipeName"
+          placeholder="Recipe name"
+          ref="recipeName"
+          type="text"
+          name="recipeName"
+          id="recipeName"
+        >
         <div class="button-container">
           <button class="button" type="submit" v-on:submit.prevent="handleSaveRecipe">Save recipe</button>
           <button
@@ -66,11 +73,11 @@
 <script>
 export default {
   name: "IngredientList",
-  recipeName: "",
   props: {},
   data() {
     return {
       showIngredientForm: false,
+      recipeName: "",
       showRecipeForm: false,
       new_ingredient: {
         name: "",
@@ -127,10 +134,11 @@ export default {
       if (name === "" && quantity === "") {
         console.log("save recipe!");
 
+        // push to recipes list
+        this.$emit("add-recipe", this.recipeName, this.ingredients);
+
         this.ingredients = [];
         this.showRecipeForm = false;
-
-        // push to recipes list
       }
     },
     handleCancelSaveRecipe() {
@@ -149,11 +157,15 @@ export default {
   box-shadow: 0px 5px 15px 2px rgba(44, 62, 80, 0.3);
 }
 .top {
-  padding: 30px 16px;
+  padding: 30px 30px;
 }
 h1 {
   font-size: 2rem;
   margin: 0;
+}
+.bottom {
+  padding: 20px 30px 16px;
+  background: rgb(30, 160, 30);
 }
 .quantity {
   padding-left: 16px;
@@ -172,7 +184,7 @@ ul {
   color: #2c3e50;
 }
 li {
-  padding: 4px 16px;
+  padding: 4px 30px;
   font-size: 1.2rem;
 }
 li:nth-of-type(odd) {
@@ -186,7 +198,7 @@ li:nth-of-type(even) {
   justify-content: space-between;
 }
 .button-container .button {
-  flex-basis: 46%;
+  flex-basis: 48%;
   margin: 0 0 10px;
 }
 form {

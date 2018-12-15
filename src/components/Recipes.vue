@@ -17,37 +17,9 @@
 
 <script>
 export default {
+  props: ["recipes"],
   data() {
-    return {
-      recipes: [
-        {
-          name: "Really good pasta",
-          ingredients: [
-            {
-              name: "pasta",
-              quantity: "200 gr."
-            },
-            {
-              name: "sauce",
-              quantity: "100 ml"
-            }
-          ]
-        },
-        {
-          name: "Really good pasta for two",
-          ingredients: [
-            {
-              name: "pasta",
-              quantity: "400 gr."
-            },
-            {
-              name: "sauce",
-              quantity: "200 ml"
-            }
-          ]
-        }
-      ]
-    };
+    return {};
   },
   methods: {}
 };

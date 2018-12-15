@@ -50,11 +50,6 @@ body {
 #nav a.router-link-exact-active {
   color: #42b983;
 }
-
-.bottom {
-  padding: 16px;
-  background: rgb(30, 160, 30);
-}
 .button {
   box-sizing: border-box;
   color: rgb(30, 160, 30);
