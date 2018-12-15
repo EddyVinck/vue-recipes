@@ -131,7 +131,7 @@ export default {
       const { name, quantity } = this.new_ingredient;
 
       // check if new ingredient form is closed
-      if (name === "" && quantity === "") {
+      if (name === "" && quantity === "" && this.recipeName !== "") {
         console.log("save recipe!");
 
         // push to recipes list
@@ -150,7 +150,6 @@ export default {
 
 <style scoped>
 .ingredients {
-  width: 400px;
   max-width: 100%;
   background: rgb(41, 185, 41);
   color: #fff;

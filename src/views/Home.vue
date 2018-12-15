@@ -1,8 +1,10 @@
 <template>
   <div class="home">
     <div class="container">
-      <Recipes v-bind:recipes="recipes"/>
-      <IngredientList v-on:add-recipe="addRecipe"/>
+      <div class="recipes-wrapper">
+        <Recipes v-bind:recipes="recipes"/>
+        <IngredientList v-on:add-recipe="addRecipe"/>
+      </div>
     </div>
   </div>
 </template>
@@ -61,3 +63,36 @@ export default {
   }
 };
 </script>
+
+<style>
+.recipes-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.recipes {
+  flex: 0 1 600px;
+}
+.ingredients {
+  flex: 0 1 400px;
+}
+@media (max-width: 1100px) {
+  .recipes {
+    flex: 0 1 59%;
+  }
+  .ingredients {
+    flex: 0 1 39%;
+  }
+}
+@media (max-width: 768px) {
+  .recipes-wrapper {
+    flex-direction: column;
+  }
+  .recipes,
+  .ingredients {
+    flex: 0 1 100%;
+    width: 100%;
+  }
+}
+</style>
+

@@ -1,7 +1,8 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/">Home</router-link>|
+      <router-link class="logo" to="/">RecipeBook</router-link>
+      <router-link to="/">Home</router-link>
       <router-link to="/about">About</router-link>
     </div>
     <router-view/>
@@ -14,6 +15,7 @@
 }
 body {
   margin: 0;
+  background-color: #f2f2f2;
 }
 .container {
   max-width: 1200px;
@@ -42,14 +44,32 @@ body {
 }
 #nav {
   padding: 30px;
+  background: #fff;
+  margin-bottom: 40px;
+  box-shadow: 0px 0px 3px 2px rgba(44, 62, 80, 0.3);
+  display: flex;
+  align-items: center;
 }
 #nav a {
   font-weight: bold;
   color: #2c3e50;
+  text-decoration: none;
+  font-size: 18px;
+  margin-right: 20px;
 }
 #nav a.router-link-exact-active {
   color: #42b983;
 }
+#nav a.logo {
+  margin: 0 20px 0 0;
+  color: #2c3e50;
+  font-size: 2rem;
+  text-decoration: none;
+}
+#nav a:hover {
+  text-decoration: underline;
+}
+
 .button {
   box-sizing: border-box;
   color: rgb(30, 160, 30);
@@ -74,9 +94,9 @@ body {
   background: none;
 }
 .button:hover {
-  color: #2c3e50;
-  border-color: rgb(149, 249, 149);
-  background: rgb(149, 249, 149);
+  color: #fff;
+  border-color: rgb(17, 82, 17);
+  background: rgb(17, 82, 17);
   transform: translateY(-4px);
   box-shadow: 0px 5px 15px 2px rgba(44, 62, 80, 0.3);
 }
