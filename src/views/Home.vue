@@ -2,7 +2,7 @@
   <div class="home">
     <div class="container">
       <div class="recipes-wrapper">
-        <Recipes v-bind:recipes="recipes"/>
+        <Recipes v-on:delete="deleteRecipe" v-bind:recipes="recipes"/>
         <IngredientList v-on:add-recipe="addRecipe"/>
       </div>
     </div>
@@ -27,6 +27,9 @@ export default {
         name: recipeName,
         ingredients
       });
+    },
+    deleteRecipe(index) {
+      this.recipes.splice(index, 1);
     }
   },
   data() {
